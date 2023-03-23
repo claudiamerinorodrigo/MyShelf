@@ -22,4 +22,19 @@
         android:name="es.upm.etsisi.cumn.grupoc.myshelf.ui.slideshow.SlideshowFragment"
         android:label="@string/menu_slideshow"
         tools:layout="@layout/fragment_slideshow" />
+    <fragment
+        android:id="@+id/bookInformationFragment"
+        android:name="es.upm.etsisi.cumn.grupoc.myshelf.BookInformationFragment"
+        android:label="fragment_book_information"
+        tools:layout="@layout/fragment_book_information" />
+    <fragment
+        android:id="@+id/bookShelfListFragment"
+        android:name="es.upm.etsisi.cumn.grupoc.myshelf.BookShelfListFragment"
+        android:label="fragment_book_shelf_list"
+        tools:layout="@layout/fragment_book_shelf_list" />
+    <fragment
+        android:id="@+id/bookLisitingFragment"
+        android:name="es.upm.etsisi.cumn.grupoc.myshelf.BookLisitingFragment"
+        android:label="fragment_book_lisiting"
+        tools:layout="@layout/fragment_book_lisiting" />
 </navigation>
