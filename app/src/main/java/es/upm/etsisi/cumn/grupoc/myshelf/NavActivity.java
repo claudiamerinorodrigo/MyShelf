@@ -1,6 +1,8 @@
 package es.upm.etsisi.cumn.grupoc.myshelf;
 
 import android.os.Bundle;
+import android.os.Debug;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.widget.TextView;
@@ -16,6 +18,9 @@ import androidx.navigation.ui.NavigationUI;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.io.IOException;
+
+import es.upm.etsisi.cumn.grupoc.myshelf.REST.OpenBooksAdapter;
 import es.upm.etsisi.cumn.grupoc.myshelf.databinding.ActivityNavBinding;
 
 public class NavActivity extends AppCompatActivity {
@@ -32,6 +37,11 @@ public class NavActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
 
+        try {
+            Log.i("TEST",  OpenBooksAdapter.getApiService().getBook("a", "", "").execute().body().toString());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
         View view = binding.navView.getHeaderView(0);
         TextView textView = view.findViewById(R.id.userEmail);
