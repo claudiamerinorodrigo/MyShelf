@@ -1,21 +1,27 @@
-package es.upm.etsisi.cumn.grupoc.myshelf.ui.bookshelf;
+package es.upm.etsisi.cumn.grupoc.myshelf.ui.bookshelf.BookListing;
 
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LiveData;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import es.upm.etsisi.cumn.grupoc.myshelf.R;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import es.upm.etsisi.cumn.grupoc.myshelf.REST.BookResponse;
+import es.upm.etsisi.cumn.grupoc.myshelf.databinding.FragmentBookLisitingBinding;
+import es.upm.etsisi.cumn.grupoc.myshelf.ui.bookshelf.shelfitem.BookShelfItemModel;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link BookshelfItemFragment#newInstance} factory method to
+ * Use the {@link BookLisitingFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class BookshelfItemFragment extends Fragment {
+public class BookLisitingFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -26,7 +32,9 @@ public class BookshelfItemFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public BookshelfItemFragment() {
+    private FragmentBookLisitingBinding binding;
+
+    public BookLisitingFragment() {
         // Required empty public constructor
     }
 
@@ -36,11 +44,11 @@ public class BookshelfItemFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment BookshelfItemFragment.
+     * @return A new instance of fragment BookLisitingFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static BookshelfItemFragment newInstance(String param1, String param2) {
-        BookshelfItemFragment fragment = new BookshelfItemFragment();
+    public static BookLisitingFragment newInstance(String param1, String param2) {
+        BookLisitingFragment fragment = new BookLisitingFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -61,6 +69,13 @@ public class BookshelfItemFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_bookshelf_item, container, false);
+        binding = FragmentBookLisitingBinding.inflate(inflater, container, false);
+        Bundle bundle = getArguments();
+        BookShelfItemModel bookShelfItemModel = BookLisitingFragmentArgs.fromBundle(bundle).getMyArg();
+
+        List<BookResponse> bookResponseList = bookShelfItemModel.getBookResponseList().getValue().stream().map(LiveData::getValue).collect(Collectors.toList());
+        binding.listBook.setAdapter(new BookInfoAdapter(bookResponseList));
+
+        return binding.getRoot();
     }
 }

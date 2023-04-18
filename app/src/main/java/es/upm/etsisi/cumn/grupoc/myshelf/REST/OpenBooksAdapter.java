@@ -1,5 +1,7 @@
 package es.upm.etsisi.cumn.grupoc.myshelf.REST;
 
+import java.util.concurrent.TimeUnit;
+
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -20,6 +22,7 @@ public class OpenBooksAdapter {
 
         // Asociamos el interceptor a las peticiones
         final OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
+        httpClient.readTimeout(60, TimeUnit.SECONDS).connectTimeout(60, TimeUnit.SECONDS);
         httpClient.addInterceptor(logging);
 
         if (API_SERVICE == null) {

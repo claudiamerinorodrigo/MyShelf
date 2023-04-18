@@ -8,6 +8,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import es.upm.etsisi.cumn.grupoc.myshelf.databinding.FragmentBookShelfListBinding;
+import es.upm.etsisi.cumn.grupoc.myshelf.ui.bookshelf.shelfitem.BookShelfItemModel;
+import es.upm.etsisi.cumn.grupoc.myshelf.ui.bookshelf.shelfitem.BookshelfItemFragment;
+import es.upm.etsisi.cumn.grupoc.myshelf.ui.bookshelf.shelfitem.EBookShelfItem;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link BookShelfListFragment#newInstance} factory method to
@@ -15,52 +20,32 @@ import android.view.ViewGroup;
  */
 public class BookShelfListFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
     public BookShelfListFragment() {
         // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment BookShelfListFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static BookShelfListFragment newInstance(String param1, String param2) {
-        BookShelfListFragment fragment = new BookShelfListFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-
-
-        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_book_shelf_list, container, false);
+        FragmentBookShelfListBinding binding = FragmentBookShelfListBinding.inflate(inflater, container, false);
+
+
+        Bundle args = new Bundle();
+        args.putSerializable(BookshelfItemFragment.ARG_PARAM1, EBookShelfItem.TO_READ);
+        BookshelfItemFragment fragment0 = (BookshelfItemFragment) getChildFragmentManager().getFragments().get(0);
+        fragment0.setArguments(args);
+
+        Bundle args1 = new Bundle();
+        args1.putSerializable(BookshelfItemFragment.ARG_PARAM1, EBookShelfItem.READED);
+        getChildFragmentManager().getFragments().get(1).setArguments(args1);
+
+        return binding.getRoot();
     }
+
 }

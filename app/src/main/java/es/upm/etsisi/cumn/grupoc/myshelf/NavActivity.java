@@ -7,9 +7,13 @@ import android.view.View;
 import android.view.Menu;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.FirebaseDatabase;
 
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -19,9 +23,15 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.io.IOException;
+import java.util.HashMap;
 
+import es.upm.etsisi.cumn.grupoc.myshelf.REST.BookResponse;
+import es.upm.etsisi.cumn.grupoc.myshelf.REST.BookResponseSearch;
 import es.upm.etsisi.cumn.grupoc.myshelf.REST.OpenBooksAdapter;
 import es.upm.etsisi.cumn.grupoc.myshelf.databinding.ActivityNavBinding;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class NavActivity extends AppCompatActivity {
 
@@ -37,11 +47,7 @@ public class NavActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
 
-        try {
-            Log.i("TEST",  OpenBooksAdapter.getApiService().getBook("a", "", "").execute().body().toString());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+
 
         View view = binding.navView.getHeaderView(0);
         TextView textView = view.findViewById(R.id.userEmail);
@@ -64,7 +70,7 @@ public class NavActivity extends AppCompatActivity {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.bookShelfListFragment, R.id.nav_slideshow)
+                R.id.nav_home, R.id.bookShelfListFragment, R.id.bookLisitingFragment)
                 .setOpenableLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_nav);

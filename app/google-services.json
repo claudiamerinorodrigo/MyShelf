@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "991130342784",
+    "firebase_url": "https://myshelf-1cc5e-default-rtdb.europe-west1.firebasedatabase.app",
     "project_id": "myshelf-1cc5e",
     "storage_bucket": "myshelf-1cc5e.appspot.com"
   },
@@ -14,7 +15,7 @@
       },
       "oauth_client": [
         {
-          "client_id": "991130342784-6ojhm9lhr9djdl0n22e0ejdljvad6fpi.apps.googleusercontent.com",
+          "client_id": "991130342784-svq6ju229ibc9tnmpqdah51n5j9iej82.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
