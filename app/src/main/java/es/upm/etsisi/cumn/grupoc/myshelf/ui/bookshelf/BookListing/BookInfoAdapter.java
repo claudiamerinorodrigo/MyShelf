@@ -7,21 +7,32 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import es.upm.etsisi.cumn.grupoc.myshelf.Firebase_Utils;
 import es.upm.etsisi.cumn.grupoc.myshelf.R;
 import es.upm.etsisi.cumn.grupoc.myshelf.REST.BookResponse;
 import es.upm.etsisi.cumn.grupoc.myshelf.databinding.BookInfoBinding;
+import es.upm.etsisi.cumn.grupoc.myshelf.ui.bookshelf.shelfitem.EBookShelfItem;
 
 public class BookInfoAdapter extends RecyclerView.Adapter<BookInfoAdapter.ViewHolder>{
 
 
     private List<BookResponse> bookList;
+    private EBookShelfItem eBookShelfItem;
 
-    public BookInfoAdapter(List<BookResponse> bookList) {
+    public BookInfoAdapter(List<BookResponse> bookList, EBookShelfItem eBookShelfItem) {
         this.bookList = bookList;
+        this.eBookShelfItem = eBookShelfItem;
     }
 
     @NonNull
@@ -49,12 +60,31 @@ public class BookInfoAdapter extends RecyclerView.Adapter<BookInfoAdapter.ViewHo
 
 
             binding.button3.setOnClickListener((l) -> {
-                //TODO REMOVE
-                Toast.makeText(l.getContext(), "NO IMPLEMENTADO", Toast.LENGTH_LONG).show();
+                // Comprobar si el libro existe en Firebase
+                Query query = Firebase_Utils.getRootFirebase().child(eBookShelfItem.name().toLowerCase()).orderByValue().equalTo(bookResponse.getKey());
+                query.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if (snapshot.exists()) {
+                            // El libro está en la biblioteca, eliminarlo
+                            for (DataSnapshot childSnapshot : snapshot.getChildren()) {
+                                childSnapshot.getRef().removeValue();
+                            }
+                            Toast.makeText(l.getContext(), "El libro " + bookResponse.getTitle() + " ha sido eliminado de la biblioteca.", Toast.LENGTH_LONG).show();
+                        } else {
+                            // El libro no está en la biblioteca
+                            Toast.makeText(l.getContext(), "El libro " + bookResponse.getTitle() + " no está en tu biblioteca.", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        // Error en la consulta a Firebase
+                        Toast.makeText(l.getContext(), "Error al comprobar la biblioteca.", Toast.LENGTH_LONG).show();
+                    }
+                });
             });
         }
     }
-
     @Override
     public int getItemCount() {
         return bookList.size();

@@ -1,16 +1,14 @@
-package es.upm.etsisi.cumn.grupoc.myshelf.ui.bookshelf.AddBook;
-
-import androidx.lifecycle.ViewModelProvider;
+package es.upm.etsisi.cumn.grupoc.myshelf.ui.home.AddBook;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import androidx.lifecycle.ViewModelProvider;
 
 import es.upm.etsisi.cumn.grupoc.myshelf.databinding.FragmentAddBookBinding;
 import es.upm.etsisi.cumn.grupoc.myshelf.ui.bookshelf.shelfitem.EBookShelfItem;

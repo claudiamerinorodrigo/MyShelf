@@ -74,7 +74,7 @@ public class BookLisitingFragment extends Fragment {
         BookShelfItemModel bookShelfItemModel = BookLisitingFragmentArgs.fromBundle(bundle).getMyArg();
 
         List<BookResponse> bookResponseList = bookShelfItemModel.getBookResponseList().getValue().stream().map(LiveData::getValue).collect(Collectors.toList());
-        binding.listBook.setAdapter(new BookInfoAdapter(bookResponseList));
+        binding.listBook.setAdapter(new BookInfoAdapter(bookResponseList, bookShelfItemModel.getType()));
 
         return binding.getRoot();
     }

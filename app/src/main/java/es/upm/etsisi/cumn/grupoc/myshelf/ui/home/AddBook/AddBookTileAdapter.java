@@ -1,4 +1,4 @@
-package es.upm.etsisi.cumn.grupoc.myshelf.ui.bookshelf.AddBook;
+package es.upm.etsisi.cumn.grupoc.myshelf.ui.home.AddBook;
 
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -8,8 +8,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -18,7 +19,6 @@ import es.upm.etsisi.cumn.grupoc.myshelf.Firebase_Utils;
 import es.upm.etsisi.cumn.grupoc.myshelf.R;
 import es.upm.etsisi.cumn.grupoc.myshelf.REST.BookResponse;
 import es.upm.etsisi.cumn.grupoc.myshelf.databinding.AddBookTileBinding;
-import es.upm.etsisi.cumn.grupoc.myshelf.databinding.BookInfoBinding;
 import es.upm.etsisi.cumn.grupoc.myshelf.ui.bookshelf.shelfitem.EBookShelfItem;
 
 public class AddBookTileAdapter extends RecyclerView.Adapter<AddBookTileAdapter.ViewHolder>{
@@ -56,10 +56,32 @@ public class AddBookTileAdapter extends RecyclerView.Adapter<AddBookTileAdapter.
             binding.bookTitle.setText(bookResponse.getTitle());
 
 
-            binding.button3.setOnClickListener((l) -> {
+            /*binding.button3.setOnClickListener((l) -> {
                 Task task = Firebase_Utils.getRootFirebase().child(eBookShelfItem.name().toLowerCase()).push().setValue(bookResponse.getKey());
                 Toast.makeText(l.getContext(), "Se ha añadido el libro " + bookResponse.getTitle() + " con exito.", Toast.LENGTH_LONG).show();
+            });*/
+            binding.button3.setOnClickListener((l) -> {
+                // Comprobar si el libro ya existe en Firebase
+                Firebase_Utils.getRootFirebase().child(eBookShelfItem.name().toLowerCase()).orderByValue().equalTo(bookResponse.getKey()).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if (snapshot.exists()) {
+                            // El libro ya está en la biblioteca
+                            Toast.makeText(l.getContext(), "El libro " + bookResponse.getTitle() + " ya está en tu biblioteca.", Toast.LENGTH_LONG).show();
+                        } else {
+                            // El libro no está en la biblioteca, añadirlo
+                            Task task = Firebase_Utils.getRootFirebase().child(eBookShelfItem.name().toLowerCase()).push().setValue(bookResponse.getKey());
+                            Toast.makeText(l.getContext(), "Se ha añadido el libro " + bookResponse.getTitle() + " con éxito.", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        // Error en la consulta a Firebase
+                        Toast.makeText(l.getContext(), "Error al comprobar la biblioteca.", Toast.LENGTH_LONG).show();
+                    }
+                });
             });
+
         }
     }
 
