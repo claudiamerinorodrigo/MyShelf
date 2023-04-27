@@ -68,7 +68,24 @@ public class BookInfoAdapter extends RecyclerView.Adapter<BookInfoAdapter.ViewHo
                         if (snapshot.exists()) {
                             // El libro está en la biblioteca, eliminarlo
                             for (DataSnapshot childSnapshot : snapshot.getChildren()) {
-                                childSnapshot.getRef().removeValue();
+                                childSnapshot.getRef().removeValue()
+                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(Void aVoid) {
+                                                // Eliminación exitosa de la base de datos, actualizar la lista local
+                                                bookList.remove(bookResponse);
+                                                notifyDataSetChanged();
+                                                Toast.makeText(l.getContext(), "El libro " + bookResponse.getTitle() + " ha sido eliminado de la biblioteca.", Toast.LENGTH_LONG).show();
+                                            }
+                                        })
+                                        .addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                // Error al eliminar el libro de la base de datos
+                                                Toast.makeText(l.getContext(), "Error al eliminar el libro " + bookResponse.getTitle() + " de la biblioteca.", Toast.LENGTH_LONG).show();
+                                            }
+                                        });
+
                             }
                             Toast.makeText(l.getContext(), "El libro " + bookResponse.getTitle() + " ha sido eliminado de la biblioteca.", Toast.LENGTH_LONG).show();
                         } else {
