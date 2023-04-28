@@ -18,4 +18,7 @@ public interface OpenBooksService {
     @GET("{fullUrl}.json")
     Call<BookResponse> getBookById(@Path(value = "fullUrl", encoded = true) String fullUrl);
 
+    @GET("{fullUrl}.json")
+    Call<AuthorResponse> getAuthorById(@Path(value = "fullUrl", encoded = true) String fullUrl);
+
 }

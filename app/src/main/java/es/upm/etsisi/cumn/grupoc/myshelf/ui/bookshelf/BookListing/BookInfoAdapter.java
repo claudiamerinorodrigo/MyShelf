@@ -5,20 +5,23 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-import es.upm.etsisi.cumn.grupoc.myshelf.Firebase_Utils;
+import es.upm.etsisi.cumn.grupoc.myshelf.BookShelfListFragmentDirections;
+import es.upm.etsisi.cumn.grupoc.myshelf.Firebase.FirebaseBook;
+import es.upm.etsisi.cumn.grupoc.myshelf.Firebase.Firebase_Utils;
 import es.upm.etsisi.cumn.grupoc.myshelf.R;
 import es.upm.etsisi.cumn.grupoc.myshelf.REST.BookResponse;
 import es.upm.etsisi.cumn.grupoc.myshelf.databinding.BookInfoBinding;
@@ -27,12 +30,14 @@ import es.upm.etsisi.cumn.grupoc.myshelf.ui.bookshelf.shelfitem.EBookShelfItem;
 public class BookInfoAdapter extends RecyclerView.Adapter<BookInfoAdapter.ViewHolder>{
 
 
-    private List<BookResponse> bookList;
+    private final Fragment fragment;
+    private List<FirebaseBook> bookList;
     private EBookShelfItem eBookShelfItem;
 
-    public BookInfoAdapter(List<BookResponse> bookList, EBookShelfItem eBookShelfItem) {
+    public BookInfoAdapter(List<FirebaseBook> bookList, EBookShelfItem eBookShelfItem, Fragment fragment) {
         this.bookList = bookList;
         this.eBookShelfItem = eBookShelfItem;
+        this.fragment = fragment;
     }
 
     @NonNull
@@ -43,7 +48,8 @@ public class BookInfoAdapter extends RecyclerView.Adapter<BookInfoAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        BookResponse bookResponse = bookList.get(position);
+        FirebaseBook firebaseBook = bookList.get(position);
+        BookResponse bookResponse = firebaseBook.getBookResponse();
         BookInfoBinding binding = holder.getBinding();
 
         if (bookResponse != null) {
@@ -58,6 +64,9 @@ public class BookInfoAdapter extends RecyclerView.Adapter<BookInfoAdapter.ViewHo
 
             binding.bookTitle.setText(bookResponse.getTitle());
 
+            binding.button4.setOnClickListener((l) -> {
+                NavHostFragment.findNavController(fragment).navigate(BookLisitingFragmentDirections.actionBookLisitingFragmentToBookDetailsFragment(firebaseBook));
+            });
 
             binding.button3.setOnClickListener((l) -> {
                 // Comprobar si el libro existe en Firebase

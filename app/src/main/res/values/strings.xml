@@ -103,4 +103,5 @@
         "when a user tries to pick up one of cards.\n\n"
     </string>
     <string name="menu_book_list">Listado de libros</string>
+    <string name="menu_book_details">Información del Libro</string>
 </resources>

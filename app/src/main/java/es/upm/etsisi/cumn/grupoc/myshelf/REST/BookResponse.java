@@ -20,6 +20,9 @@ public class BookResponse implements Serializable {
     @SerializedName("covers")
     List<String> covers;
 
+    @SerializedName("authors")
+    List<AuthorBookResponse> authors;
+
     public String getCover_i() {
         return cover_i;
     }
@@ -71,5 +74,20 @@ public class BookResponse implements Serializable {
 
     public String getCover() {
         return getCovers() != null ? getCovers().get(getCovers().size() - 1) : getCover_i();
+    }
+
+    private static class AuthorBookResponse {
+
+        @SerializedName("author")
+        public AuthorKeyBookResponse author;
+
+        private static class AuthorKeyBookResponse {
+            @SerializedName("key")
+            public String key;
+        }
+    }
+
+    public String getAuthorKey() {
+        return authors.get(0).author.key;
     }
 }

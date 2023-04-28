@@ -1,4 +1,4 @@
-package es.upm.etsisi.cumn.grupoc.myshelf;
+package es.upm.etsisi.cumn.grupoc.myshelf.Firebase;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;

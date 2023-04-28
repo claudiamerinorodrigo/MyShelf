@@ -13,17 +13,6 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/nav_gallery"
-        android:name="es.upm.etsisi.cumn.grupoc.myshelf.ui.gallery.GalleryFragment"
-        android:label="@string/menu_gallery"
-        tools:layout="@layout/fragment_gallery" />
-
-    <fragment
-        android:id="@+id/nav_slideshow"
-        android:name="es.upm.etsisi.cumn.grupoc.myshelf.ui.slideshow.SlideshowFragment"
-        android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_slideshow" />
-    <fragment
         android:id="@+id/bookAddFragment"
         android:name="es.upm.etsisi.cumn.grupoc.myshelf.ui.home.AddBook.AddBookFragment"
         android:label="fragment_add_book"
@@ -47,6 +36,9 @@
             android:name="AddBookAction"
             android:id="@+id/action_bookShelfListFragment_to_bookAddFragment"
             app:destination="@id/bookAddFragment" />
+        <action
+            android:id="@+id/action_bookShelfListFragment_to_bookDetailsFragment"
+            app:destination="@id/bookDetailsFragment" />
     </fragment>
     <fragment
         android:id="@+id/bookLisitingFragment"
@@ -56,5 +48,18 @@
         <argument
             android:name="myArg"
             app:argType="es.upm.etsisi.cumn.grupoc.myshelf.ui.bookshelf.shelfitem.BookShelfItemModel" />
+        <action
+            android:id="@+id/action_bookLisitingFragment_to_bookDetailsFragment"
+            app:destination="@id/bookDetailsFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/bookDetailsFragment"
+        android:name="es.upm.etsisi.cumn.grupoc.myshelf.ui.BookDetails.BookDetailsFragment"
+        android:label="@string/menu_book_details"
+        tools:layout="@layout/fragment_book_details">
+        <argument
+            android:name="myArg"
+            app:argType="es.upm.etsisi.cumn.grupoc.myshelf.Firebase.FirebaseBook" />
     </fragment>
 </navigation>

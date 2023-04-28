@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import es.upm.etsisi.cumn.grupoc.myshelf.Firebase.FirebaseBook;
 import es.upm.etsisi.cumn.grupoc.myshelf.REST.BookResponse;
 import es.upm.etsisi.cumn.grupoc.myshelf.databinding.FragmentBookLisitingBinding;
 import es.upm.etsisi.cumn.grupoc.myshelf.ui.bookshelf.shelfitem.BookShelfItemModel;
@@ -73,8 +74,8 @@ public class BookLisitingFragment extends Fragment {
         Bundle bundle = getArguments();
         BookShelfItemModel bookShelfItemModel = BookLisitingFragmentArgs.fromBundle(bundle).getMyArg();
 
-        List<BookResponse> bookResponseList = bookShelfItemModel.getBookResponseList().getValue().stream().map(LiveData::getValue).collect(Collectors.toList());
-        binding.listBook.setAdapter(new BookInfoAdapter(bookResponseList, bookShelfItemModel.getType()));
+        List<FirebaseBook> bookResponseList = bookShelfItemModel.getBookResponseList().getValue().stream().map(LiveData::getValue).collect(Collectors.toList());
+        binding.listBook.setAdapter(new BookInfoAdapter(bookResponseList, bookShelfItemModel.getType(), this));
 
         return binding.getRoot();
     }

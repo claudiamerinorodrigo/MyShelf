@@ -4,36 +4,20 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.MutableLiveData;
-import androidx.navigation.ActionOnlyNavDirections;
 import androidx.navigation.fragment.NavHostFragment;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.picasso.Picasso;
 
-import java.util.HashMap;
-
-import es.upm.etsisi.cumn.grupoc.myshelf.BookShelfListFragment;
 import es.upm.etsisi.cumn.grupoc.myshelf.BookShelfListFragmentDirections;
+import es.upm.etsisi.cumn.grupoc.myshelf.Firebase.FirebaseBook;
 import es.upm.etsisi.cumn.grupoc.myshelf.R;
-import es.upm.etsisi.cumn.grupoc.myshelf.REST.BookResponse;
-import es.upm.etsisi.cumn.grupoc.myshelf.REST.OpenBooksAdapter;
-import es.upm.etsisi.cumn.grupoc.myshelf.databinding.ActivityNavBinding;
 import es.upm.etsisi.cumn.grupoc.myshelf.databinding.FragmentBookshelfItemBinding;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -106,7 +90,7 @@ public class BookshelfItemFragment extends Fragment {
 
         bookShelfItemModel.getBookResponseList().observe(getViewLifecycleOwner(), (o) -> {
             binding.linearLayout.removeAllViews();
-            for (MutableLiveData<BookResponse> bookResponse : o) {
+            for (MutableLiveData<FirebaseBook> bookResponse : o) {
                 ImageView imageView = new ImageView(getContext());
                 LinearLayout.LayoutParams viewParamsCenter = new LinearLayout.LayoutParams(
                         LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -119,11 +103,15 @@ public class BookshelfItemFragment extends Fragment {
                 binding.linearLayout.addView(imageView);
 
                 bookResponse.observe(getViewLifecycleOwner(), (o2) -> {
-                    String cover = o2.getCover();
-                    if (cover != null)
-                        Picasso.get().load("https://covers.openlibrary.org/b/id/" + cover +"-L.jpg")
+                    String cover = o2.getBookResponse().getCover();
+                    if (cover != null) {
+                        Picasso.get().load("https://covers.openlibrary.org/b/id/" + cover + "-L.jpg")
                                 .resize(0, 300)
                                 .centerCrop().into(imageView);
+                        imageView.setOnClickListener((l) -> {
+                            NavHostFragment.findNavController(this).navigate(BookShelfListFragmentDirections.actionBookShelfListFragmentToBookDetailsFragment(o2));
+                        });
+                    }
                 });
 
             }
