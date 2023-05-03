@@ -1,4 +1,4 @@
-package es.upm.etsisi.cumn.grupoc.myshelf.ui.home.AddBook;
+package es.upm.etsisi.cumn.grupoc.myshelf.ui.bookshelf.AddBook;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -29,7 +29,7 @@ public class AddBookFragment extends Fragment {
 
 
         Bundle bundle = getArguments();
-        EBookShelfItem bookShelfType = AddBookFragmentArgs.fromBundle(bundle).getMyArg();
+        EBookShelfItem bookShelfType = es.upm.etsisi.cumn.grupoc.myshelf.ui.bookshelf.AddBook.AddBookFragmentArgs.fromBundle(bundle).getMyArg();
         binding.buttonSearch.setOnClickListener(this::onSearch);
 
         mViewModel.getBookResponseList().observe(getViewLifecycleOwner(), (o) -> {

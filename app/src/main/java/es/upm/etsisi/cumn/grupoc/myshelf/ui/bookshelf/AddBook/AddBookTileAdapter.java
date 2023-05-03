@@ -1,4 +1,4 @@
-package es.upm.etsisi.cumn.grupoc.myshelf.ui.home.AddBook;
+package es.upm.etsisi.cumn.grupoc.myshelf.ui.bookshelf.AddBook;
 
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -10,11 +10,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import es.upm.etsisi.cumn.grupoc.myshelf.Firebase.FirebaseBook2;
 import es.upm.etsisi.cumn.grupoc.myshelf.Firebase.Firebase_Utils;
 import es.upm.etsisi.cumn.grupoc.myshelf.R;
 import es.upm.etsisi.cumn.grupoc.myshelf.REST.BookResponse;
@@ -62,7 +64,9 @@ public class AddBookTileAdapter extends RecyclerView.Adapter<AddBookTileAdapter.
             });*/
             binding.button3.setOnClickListener((l) -> {
                 // Comprobar si el libro ya existe en Firebase
-                Firebase_Utils.getRootFirebase().child(eBookShelfItem.name().toLowerCase()).orderByValue().equalTo(bookResponse.getKey()).addListenerForSingleValueEvent(new ValueEventListener() {
+                DatabaseReference shelfRefence = Firebase_Utils.getRootFirebase().child(eBookShelfItem.name().toLowerCase());
+                FirebaseBook2 firebaseBook2 = new FirebaseBook2(bookResponse.getKey());
+                shelfRefence.child(firebaseBook2.getBookIDFirebase()).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         if (snapshot.exists()) {
@@ -70,7 +74,7 @@ public class AddBookTileAdapter extends RecyclerView.Adapter<AddBookTileAdapter.
                             Toast.makeText(l.getContext(), "El libro " + bookResponse.getTitle() + " ya está en tu biblioteca.", Toast.LENGTH_LONG).show();
                         } else {
                             // El libro no está en la biblioteca, añadirlo
-                            Task task = Firebase_Utils.getRootFirebase().child(eBookShelfItem.name().toLowerCase()).push().setValue(bookResponse.getKey());
+                            shelfRefence.child(firebaseBook2.getBookIDFirebase()).setValue(firebaseBook2);
                             Toast.makeText(l.getContext(), "Se ha añadido el libro " + bookResponse.getTitle() + " con éxito.", Toast.LENGTH_LONG).show();
                         }
                     }
@@ -80,6 +84,11 @@ public class AddBookTileAdapter extends RecyclerView.Adapter<AddBookTileAdapter.
                         Toast.makeText(l.getContext(), "Error al comprobar la biblioteca.", Toast.LENGTH_LONG).show();
                     }
                 });
+
+
+
+
+
             });
 
         }

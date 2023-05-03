@@ -12,7 +12,7 @@
 
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/nameShelf"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -26,7 +26,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/addButton"
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_marginTop="8dp"

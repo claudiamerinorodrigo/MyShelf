@@ -9,9 +9,8 @@ import androidx.fragment.app.Fragment;
 
 import com.squareup.picasso.Picasso;
 
-import es.upm.etsisi.cumn.grupoc.myshelf.Firebase.FirebaseBook;
+import es.upm.etsisi.cumn.grupoc.myshelf.Firebase.FirebaseBookWrapper;
 import es.upm.etsisi.cumn.grupoc.myshelf.REST.AuthorResponse;
-import es.upm.etsisi.cumn.grupoc.myshelf.REST.BookResponse;
 import es.upm.etsisi.cumn.grupoc.myshelf.REST.OpenBooksAdapter;
 import es.upm.etsisi.cumn.grupoc.myshelf.databinding.FragmentBookDetailsBinding;
 import retrofit2.Call;
@@ -51,17 +50,17 @@ public class BookDetailsFragment extends Fragment {
         // Inflate the layout for this fragment
         binding = FragmentBookDetailsBinding.inflate(inflater, container, false);
         Bundle bundle = getArguments();
-        FirebaseBook firebaseBook = BookDetailsFragmentArgs.fromBundle(bundle).getMyArg();
+        FirebaseBookWrapper firebaseBookWrapper = BookDetailsFragmentArgs.fromBundle(bundle).getMyArg();
 
-        Picasso.get().load("https://covers.openlibrary.org/b/id/" + firebaseBook.getBookResponse().getCover() +"-L.jpg")
+        Picasso.get().load("https://covers.openlibrary.org/b/id/" + firebaseBookWrapper.getBookResponse().getCover() +"-L.jpg")
                 .resize(150, 300)
                 .centerCrop().into(binding.bookCover);
 
-        binding.bookTitle.setText(firebaseBook.getBookResponse().getTitle());
+        binding.bookTitle.setText(firebaseBookWrapper.getBookResponse().getTitle());
 
 
 
-        Call<AuthorResponse> call = OpenBooksAdapter.getApiService().getAuthorById(firebaseBook.getBookResponse().getAuthorKey());
+        Call<AuthorResponse> call = OpenBooksAdapter.getApiService().getAuthorById(firebaseBookWrapper.getBookResponse().getAuthorKey());
         call.enqueue(new Callback<AuthorResponse>() {
             @Override
             public void onResponse(Call<AuthorResponse> call, Response<AuthorResponse> response) {

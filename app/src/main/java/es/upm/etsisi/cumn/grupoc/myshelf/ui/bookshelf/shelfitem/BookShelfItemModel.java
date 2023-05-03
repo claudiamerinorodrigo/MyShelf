@@ -10,11 +10,11 @@ import com.google.firebase.database.DataSnapshot;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
-import es.upm.etsisi.cumn.grupoc.myshelf.Firebase.FirebaseBook;
+import es.upm.etsisi.cumn.grupoc.myshelf.Firebase.FirebaseBookWrapper;
+import es.upm.etsisi.cumn.grupoc.myshelf.Firebase.FirebaseBook2;
 import es.upm.etsisi.cumn.grupoc.myshelf.Firebase.Firebase_Utils;
 import es.upm.etsisi.cumn.grupoc.myshelf.REST.BookResponse;
 import es.upm.etsisi.cumn.grupoc.myshelf.REST.OpenBooksAdapter;
@@ -24,7 +24,7 @@ import retrofit2.Response;
 
 public class BookShelfItemModel implements Serializable {
     private EBookShelfItem type;
-    private MutableLiveData<List<MutableLiveData<FirebaseBook>>> bookResponseList;
+    private MutableLiveData<List<MutableLiveData<FirebaseBookWrapper>>> bookResponseList;
 
     public BookShelfItemModel() {
 
@@ -34,9 +34,9 @@ public class BookShelfItemModel implements Serializable {
 
         this.type = type;
 
-        bookResponseList = new MutableLiveData<List<MutableLiveData<FirebaseBook>>>();
+        bookResponseList = new MutableLiveData<List<MutableLiveData<FirebaseBookWrapper>>>();
 
-        List<MutableLiveData<FirebaseBook>> bookResponses = new ArrayList<>();
+        List<MutableLiveData<FirebaseBookWrapper>> bookResponses = new ArrayList<>();
 
         Firebase_Utils.getRootFirebase().child(type.name().toLowerCase()).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
@@ -45,18 +45,23 @@ public class BookShelfItemModel implements Serializable {
                     Log.e("firebase", "Error getting data", task.getException());
                 }
                 else if (task.getResult().exists()){
-                    HashMap<String, String> hashMap = (HashMap<String, String>) task.getResult().getValue();
+                    Iterator<DataSnapshot> iterator = task.getResult().getChildren().iterator();
 
-                    for (Map.Entry<String, String> entry : hashMap.entrySet()) {
-                        MutableLiveData<FirebaseBook> bookResponseMutableLiveData = new MutableLiveData<>();
+
+
+                    while (iterator.hasNext()) {
+                        DataSnapshot dataSnapshot = iterator.next();
+                        FirebaseBook2 firebaseBook2 = dataSnapshot.getValue(FirebaseBook2.class);
+
+                        MutableLiveData<FirebaseBookWrapper> bookResponseMutableLiveData = new MutableLiveData<>();
                         bookResponses.add(bookResponseMutableLiveData);
 
-                        Call<BookResponse> call = OpenBooksAdapter.getApiService().getBookById(entry.getValue());
+                        Call<BookResponse> call = OpenBooksAdapter.getApiService().getBookById(firebaseBook2.getBookID());
                         call.enqueue(new Callback<BookResponse>() {
                             @Override
                             public void onResponse(Call<BookResponse> call, Response<BookResponse> response) {
                                 BookResponse book = response.body();
-                                bookResponseMutableLiveData.setValue(new FirebaseBook(entry.getKey(),entry.getValue(), type, book));
+                                bookResponseMutableLiveData.setValue(new FirebaseBookWrapper(firebaseBook2, type, book));
                             }
 
                             @Override
@@ -73,7 +78,7 @@ public class BookShelfItemModel implements Serializable {
         });
     }
 
-    public MutableLiveData<List<MutableLiveData<FirebaseBook>>> getBookResponseList() {
+    public MutableLiveData<List<MutableLiveData<FirebaseBookWrapper>>> getBookResponseList() {
         return bookResponseList;
     }
 

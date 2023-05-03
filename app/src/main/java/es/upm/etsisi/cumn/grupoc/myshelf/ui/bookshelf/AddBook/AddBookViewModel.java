@@ -1,4 +1,4 @@
-package es.upm.etsisi.cumn.grupoc.myshelf.ui.home.AddBook;
+package es.upm.etsisi.cumn.grupoc.myshelf.ui.bookshelf.AddBook;
 
 import android.text.Editable;
 import android.util.Log;

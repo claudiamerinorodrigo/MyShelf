@@ -6,16 +6,11 @@
     app:startDestination="@id/bookShelfListFragment"
     tools:ignore="ExtraText">
 
-    <fragment
-        android:id="@+id/nav_home"
-        android:name="es.upm.etsisi.cumn.grupoc.myshelf.ui.home.HomeFragment"
-        android:label="@string/menu_home"
-        tools:layout="@layout/fragment_home" />
 
     <fragment
         android:id="@+id/bookAddFragment"
-        android:name="es.upm.etsisi.cumn.grupoc.myshelf.ui.home.AddBook.AddBookFragment"
-        android:label="fragment_add_book"
+        android:name="es.upm.etsisi.cumn.grupoc.myshelf.ui.bookshelf.AddBook.AddBookFragment"
+        android:label="@string/title_add_book"
         tools:layout="@layout/fragment_add_book">
         <argument
             android:name="myArg"
@@ -25,7 +20,7 @@
     <fragment
         android:id="@+id/bookShelfListFragment"
         android:name="es.upm.etsisi.cumn.grupoc.myshelf.BookShelfListFragment"
-        android:label="fragment_book_shelf_list"
+        android:label="@string/title_book_shelf_list"
         tools:layout="@layout/fragment_book_shelf_list" >
         <action
             android:name="CustomAction"
@@ -60,6 +55,6 @@
         tools:layout="@layout/fragment_book_details">
         <argument
             android:name="myArg"
-            app:argType="es.upm.etsisi.cumn.grupoc.myshelf.Firebase.FirebaseBook" />
+            app:argType="es.upm.etsisi.cumn.grupoc.myshelf.Firebase.FirebaseBookWrapper" />
     </fragment>
 </navigation>

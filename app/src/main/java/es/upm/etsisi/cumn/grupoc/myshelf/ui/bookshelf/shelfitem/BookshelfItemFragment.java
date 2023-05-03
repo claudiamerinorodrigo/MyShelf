@@ -15,54 +15,28 @@ import android.widget.LinearLayout;
 import com.squareup.picasso.Picasso;
 
 import es.upm.etsisi.cumn.grupoc.myshelf.BookShelfListFragmentDirections;
-import es.upm.etsisi.cumn.grupoc.myshelf.Firebase.FirebaseBook;
+import es.upm.etsisi.cumn.grupoc.myshelf.Firebase.FirebaseBookWrapper;
 import es.upm.etsisi.cumn.grupoc.myshelf.R;
 import es.upm.etsisi.cumn.grupoc.myshelf.databinding.FragmentBookshelfItemBinding;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link BookshelfItemFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class BookshelfItemFragment extends Fragment {
 
     private FragmentBookshelfItemBinding binding;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    public static final String ARG_PARAM1 = "param1";
+    public static final String ARG_TYPE_OF_BOOKSHELF = "TYPE_OF_BOOKSHELF";
 
     // TODO: Rename and change types of parameters
-    private EBookShelfItem mParam1;
+    private EBookShelfItem eBookShelfItem;
     public BookshelfItemFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment BookshelfItemFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static BookshelfItemFragment newInstance(String param1, String param2) {
-        BookshelfItemFragment fragment = new BookshelfItemFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        fragment.setArguments(args);
-        return fragment;
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
-
-
-
     }
 
     BookShelfItemModel bookShelfItemModel;
@@ -79,18 +53,18 @@ public class BookshelfItemFragment extends Fragment {
 
     public void apply() {
         if (getArguments() != null) {
-            mParam1 = (EBookShelfItem) getArguments().getSerializable(ARG_PARAM1);
+            eBookShelfItem = (EBookShelfItem) getArguments().getSerializable(ARG_TYPE_OF_BOOKSHELF);
         }
-        if (mParam1 == null)
+        if (eBookShelfItem == null)
             return;
 
-        binding.textView2.setText(mParam1.getDisplayName());
+        binding.nameShelf.setText(eBookShelfItem.getDisplayName());
 
-        bookShelfItemModel = new BookShelfItemModel(mParam1);
+        bookShelfItemModel = new BookShelfItemModel(eBookShelfItem);
 
         bookShelfItemModel.getBookResponseList().observe(getViewLifecycleOwner(), (o) -> {
             binding.linearLayout.removeAllViews();
-            for (MutableLiveData<FirebaseBook> bookResponse : o) {
+            for (MutableLiveData<FirebaseBookWrapper> bookResponse : o) {
                 ImageView imageView = new ImageView(getContext());
                 LinearLayout.LayoutParams viewParamsCenter = new LinearLayout.LayoutParams(
                         LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -117,7 +91,7 @@ public class BookshelfItemFragment extends Fragment {
             }
         });
 
-        binding.button2.setOnClickListener(this::onClickAddBook);
+        binding.addButton.setOnClickListener(this::onClickAddBook);
 
         binding.getRoot().setOnClickListener(this::onClickShowBooks);
     }

@@ -5,23 +5,17 @@ import java.io.Serializable;
 import es.upm.etsisi.cumn.grupoc.myshelf.REST.BookResponse;
 import es.upm.etsisi.cumn.grupoc.myshelf.ui.bookshelf.shelfitem.EBookShelfItem;
 
-public class FirebaseBook implements Serializable {
+public class FirebaseBookWrapper implements Serializable {
     private BookResponse bookResponse;
 
     private EBookShelfItem eBookShelfItem;
     private String firebaseKey;
     private String openBookskey;
 
-    public FirebaseBook(String firebaseKey, String openBookskey) {
-        this.firebaseKey = firebaseKey;
-        this.openBookskey = openBookskey;
-    }
 
-    public FirebaseBook(String firebaseKey, String openBookskey, EBookShelfItem eBookShelfItem, BookResponse bookResponse) {
-        this.firebaseKey = firebaseKey;
-        this.openBookskey = openBookskey;
-        this.bookResponse = bookResponse;
-        this.eBookShelfItem = eBookShelfItem;
+    public FirebaseBookWrapper(FirebaseBook2 firebaseBook2, EBookShelfItem type, BookResponse book) {
+        this.eBookShelfItem = type;
+        this.bookResponse = book;
     }
 
     public BookResponse getBookResponse() {

@@ -2,7 +2,7 @@ package es.upm.etsisi.cumn.grupoc.myshelf.ui.bookshelf.shelfitem;
 
 public enum EBookShelfItem {
     TO_READ("PARA LEER"),
-    READED("LEIDOS");
+    READ("LEIDOS");
 
     private String display_name;
     EBookShelfItem(String display_name) {

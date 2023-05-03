@@ -19,8 +19,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-import es.upm.etsisi.cumn.grupoc.myshelf.BookShelfListFragmentDirections;
-import es.upm.etsisi.cumn.grupoc.myshelf.Firebase.FirebaseBook;
+import es.upm.etsisi.cumn.grupoc.myshelf.Firebase.FirebaseBookWrapper;
 import es.upm.etsisi.cumn.grupoc.myshelf.Firebase.Firebase_Utils;
 import es.upm.etsisi.cumn.grupoc.myshelf.R;
 import es.upm.etsisi.cumn.grupoc.myshelf.REST.BookResponse;
@@ -31,10 +30,10 @@ public class BookInfoAdapter extends RecyclerView.Adapter<BookInfoAdapter.ViewHo
 
 
     private final Fragment fragment;
-    private List<FirebaseBook> bookList;
+    private List<FirebaseBookWrapper> bookList;
     private EBookShelfItem eBookShelfItem;
 
-    public BookInfoAdapter(List<FirebaseBook> bookList, EBookShelfItem eBookShelfItem, Fragment fragment) {
+    public BookInfoAdapter(List<FirebaseBookWrapper> bookList, EBookShelfItem eBookShelfItem, Fragment fragment) {
         this.bookList = bookList;
         this.eBookShelfItem = eBookShelfItem;
         this.fragment = fragment;
@@ -48,8 +47,8 @@ public class BookInfoAdapter extends RecyclerView.Adapter<BookInfoAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        FirebaseBook firebaseBook = bookList.get(position);
-        BookResponse bookResponse = firebaseBook.getBookResponse();
+        FirebaseBookWrapper firebaseBookWrapper = bookList.get(position);
+        BookResponse bookResponse = firebaseBookWrapper.getBookResponse();
         BookInfoBinding binding = holder.getBinding();
 
         if (bookResponse != null) {
@@ -65,7 +64,7 @@ public class BookInfoAdapter extends RecyclerView.Adapter<BookInfoAdapter.ViewHo
             binding.bookTitle.setText(bookResponse.getTitle());
 
             binding.button4.setOnClickListener((l) -> {
-                NavHostFragment.findNavController(fragment).navigate(BookLisitingFragmentDirections.actionBookLisitingFragmentToBookDetailsFragment(firebaseBook));
+                NavHostFragment.findNavController(fragment).navigate(BookLisitingFragmentDirections.actionBookLisitingFragmentToBookDetailsFragment(firebaseBookWrapper));
             });
 
             binding.button3.setOnClickListener((l) -> {
