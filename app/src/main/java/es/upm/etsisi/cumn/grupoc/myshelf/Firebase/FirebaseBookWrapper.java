@@ -9,13 +9,13 @@ public class FirebaseBookWrapper implements Serializable {
     private BookResponse bookResponse;
 
     private EBookShelfItem eBookShelfItem;
-    private String firebaseKey;
-    private String openBookskey;
 
+    private FirebaseBook2 firebaseBook2;
 
     public FirebaseBookWrapper(FirebaseBook2 firebaseBook2, EBookShelfItem type, BookResponse book) {
         this.eBookShelfItem = type;
         this.bookResponse = book;
+        this.firebaseBook2 = firebaseBook2;
     }
 
     public BookResponse getBookResponse() {
@@ -26,11 +26,7 @@ public class FirebaseBookWrapper implements Serializable {
         return eBookShelfItem;
     }
 
-    public String getFirebaseKey() {
-        return firebaseKey;
-    }
-
-    public String getOpenBookskey() {
-        return openBookskey;
+    public FirebaseBook2 getFirebaseBook2() {
+        return firebaseBook2;
     }
 }
