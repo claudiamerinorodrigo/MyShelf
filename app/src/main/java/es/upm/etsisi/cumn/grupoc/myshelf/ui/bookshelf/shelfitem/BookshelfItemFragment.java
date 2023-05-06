@@ -82,10 +82,10 @@ public class BookshelfItemFragment extends Fragment {
                         Picasso.get().load("https://covers.openlibrary.org/b/id/" + cover + "-L.jpg")
                                 .resize(0, 300)
                                 .centerCrop().into(imageView);
-                        imageView.setOnClickListener((l) -> {
-                            NavHostFragment.findNavController(this).navigate(BookShelfListFragmentDirections.actionBookShelfListFragmentToBookDetailsFragment(o2));
-                        });
                     }
+                    imageView.setOnClickListener((l) -> {
+                        NavHostFragment.findNavController(this).navigate(BookShelfListFragmentDirections.actionBookShelfListFragmentToBookDetailsFragment(o2));
+                    });
                 });
 
             }
