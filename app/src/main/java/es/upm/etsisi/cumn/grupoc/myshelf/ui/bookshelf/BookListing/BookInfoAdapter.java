@@ -13,12 +13,14 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import es.upm.etsisi.cumn.grupoc.myshelf.Firebase.FirebaseBook2;
 import es.upm.etsisi.cumn.grupoc.myshelf.Firebase.FirebaseBookWrapper;
 import es.upm.etsisi.cumn.grupoc.myshelf.Firebase.Firebase_Utils;
 import es.upm.etsisi.cumn.grupoc.myshelf.R;
@@ -32,11 +34,13 @@ public class BookInfoAdapter extends RecyclerView.Adapter<BookInfoAdapter.ViewHo
     private final Fragment fragment;
     private List<FirebaseBookWrapper> bookList;
     private EBookShelfItem eBookShelfItem;
+    private EBookShelfItem eBookShelfItem2;
 
-    public BookInfoAdapter(List<FirebaseBookWrapper> bookList, EBookShelfItem eBookShelfItem, Fragment fragment) {
+    public BookInfoAdapter(List<FirebaseBookWrapper> bookList, EBookShelfItem eBookShelfItem, EBookShelfItem eBookShelfItem2, Fragment fragment) {
         this.bookList = bookList;
         this.eBookShelfItem = eBookShelfItem;
         this.fragment = fragment;
+        this.eBookShelfItem2 = eBookShelfItem2;
     }
 
     @NonNull
@@ -63,42 +67,69 @@ public class BookInfoAdapter extends RecyclerView.Adapter<BookInfoAdapter.ViewHo
 
             binding.bookTitle.setText(bookResponse.getTitle());
 
+            binding.button5.setOnClickListener((l) -> {
+                // Comprobar si el libro ya existe en Firebase
+                DatabaseReference shelfRefence = Firebase_Utils.getRootFirebase().child(eBookShelfItem.name().toLowerCase());
+                FirebaseBook2 firebaseBook2 = new FirebaseBook2(bookResponse.getKey());
+                shelfRefence.child(firebaseBook2.getBookIDFirebase()).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if (snapshot.exists()) {
+                            // El libro está en la biblioteca y se elimina
+                            shelfRefence.child(firebaseBook2.getBookIDFirebase()).removeValue();
+                            //Toast.makeText(l.getContext(), "El libro " + bookResponse.getTitle() + " ha sido eliminado.", Toast.LENGTH_LONG).show();
+
+                        } else {
+                            // El libro no está en la biblioteca
+                            //Toast.makeText(l.getContext(), "El libro " + bookResponse.getTitle() + " no esta en la biblioteca", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        // Error en la consulta a Firebase
+                        Toast.makeText(l.getContext(), "Error al comprobar la biblioteca.", Toast.LENGTH_LONG).show();
+                    }
+                });
+                DatabaseReference shelfRefence2 = Firebase_Utils.getRootFirebase().child(eBookShelfItem2.name().toLowerCase());
+                shelfRefence2.child(firebaseBook2.getBookIDFirebase()).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if (snapshot.exists()) {
+                            // El libro ya está en la biblioteca
+                            Toast.makeText(l.getContext(), "El libro " + bookResponse.getTitle() + " ya está en tu biblioteca.", Toast.LENGTH_LONG).show();
+                        } else {
+                            // El libro no está en la biblioteca, añadirlo
+                            shelfRefence2.child(firebaseBook2.getBookIDFirebase()).setValue(firebaseBook2);
+                           Toast.makeText(l.getContext(), "Se ha movido el libro " + bookResponse.getTitle() + " con éxito.", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        // Error en la consulta a Firebase
+                        Toast.makeText(l.getContext(), "Error al comprobar la biblioteca.", Toast.LENGTH_LONG).show();
+                    }
+                });
+            });
+
             binding.button4.setOnClickListener((l) -> {
                 NavHostFragment.findNavController(fragment).navigate(BookLisitingFragmentDirections.actionBookLisitingFragmentToBookDetailsFragment(firebaseBookWrapper));
             });
 
             binding.button3.setOnClickListener((l) -> {
-                // Comprobar si el libro existe en Firebase
-                Query query = Firebase_Utils.getRootFirebase().child(eBookShelfItem.name().toLowerCase()).orderByValue().equalTo(bookResponse.getKey());
-                query.addListenerForSingleValueEvent(new ValueEventListener() {
+                // Comprobar si el libro ya existe en Firebase
+                DatabaseReference shelfRefence = Firebase_Utils.getRootFirebase().child(eBookShelfItem.name().toLowerCase());
+                FirebaseBook2 firebaseBook2 = new FirebaseBook2(bookResponse.getKey());
+                shelfRefence.child(firebaseBook2.getBookIDFirebase()).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         if (snapshot.exists()) {
-                            // El libro está en la biblioteca, eliminarlo
-                            for (DataSnapshot childSnapshot : snapshot.getChildren()) {
-                                childSnapshot.getRef().removeValue()
-                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                            @Override
-                                            public void onSuccess(Void aVoid) {
-                                                // Eliminación exitosa de la base de datos, actualizar la lista local
-                                                bookList.remove(bookResponse);
-                                                notifyDataSetChanged();
-                                                Toast.makeText(l.getContext(), "El libro " + bookResponse.getTitle() + " ha sido eliminado de la biblioteca.", Toast.LENGTH_LONG).show();
-                                            }
-                                        })
-                                        .addOnFailureListener(new OnFailureListener() {
-                                            @Override
-                                            public void onFailure(@NonNull Exception e) {
-                                                // Error al eliminar el libro de la base de datos
-                                                Toast.makeText(l.getContext(), "Error al eliminar el libro " + bookResponse.getTitle() + " de la biblioteca.", Toast.LENGTH_LONG).show();
-                                            }
-                                        });
+                            // El libro está en la biblioteca y se elimina
+                            shelfRefence.child(firebaseBook2.getBookIDFirebase()).removeValue();
+                            Toast.makeText(l.getContext(), "El libro " + bookResponse.getTitle() + " ha sido eliminado.", Toast.LENGTH_LONG).show();
 
-                            }
-                            Toast.makeText(l.getContext(), "El libro " + bookResponse.getTitle() + " ha sido eliminado de la biblioteca.", Toast.LENGTH_LONG).show();
                         } else {
                             // El libro no está en la biblioteca
-                            Toast.makeText(l.getContext(), "El libro " + bookResponse.getTitle() + " no está en tu biblioteca.", Toast.LENGTH_LONG).show();
+                            Toast.makeText(l.getContext(), "El libro " + bookResponse.getTitle() + " no esta en la biblioteca", Toast.LENGTH_LONG).show();
                         }
                     }
                     @Override

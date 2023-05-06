@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
 import es.upm.etsisi.cumn.grupoc.myshelf.Firebase.FirebaseBookWrapper;
 import es.upm.etsisi.cumn.grupoc.myshelf.databinding.FragmentBookLisitingBinding;
 import es.upm.etsisi.cumn.grupoc.myshelf.ui.bookshelf.shelfitem.BookShelfItemModel;
+import es.upm.etsisi.cumn.grupoc.myshelf.ui.bookshelf.shelfitem.EBookShelfItem;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -73,8 +74,16 @@ public class BookLisitingFragment extends Fragment {
         Bundle bundle = getArguments();
         BookShelfItemModel bookShelfItemModel = BookLisitingFragmentArgs.fromBundle(bundle).getMyArg();
 
+        BookShelfItemModel bookShelfItemModelAux;
+        if(bookShelfItemModel.getType().getDisplayName() == "PARA LEER")
+        {
+            bookShelfItemModelAux = new BookShelfItemModel(EBookShelfItem.READ);
+        } else {
+            bookShelfItemModelAux = new BookShelfItemModel(EBookShelfItem.TO_READ);
+        }
+
         List<FirebaseBookWrapper> bookResponseList = bookShelfItemModel.getBookResponseList().getValue().stream().map(LiveData::getValue).collect(Collectors.toList());
-        binding.listBook.setAdapter(new BookInfoAdapter(bookResponseList, bookShelfItemModel.getType(), this));
+        binding.listBook.setAdapter(new BookInfoAdapter(bookResponseList, bookShelfItemModel.getType(), bookShelfItemModelAux.getType(), this));
 
         return binding.getRoot();
     }

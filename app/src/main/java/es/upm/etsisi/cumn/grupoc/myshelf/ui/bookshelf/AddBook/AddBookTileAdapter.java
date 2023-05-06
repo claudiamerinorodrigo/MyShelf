@@ -84,11 +84,6 @@ public class AddBookTileAdapter extends RecyclerView.Adapter<AddBookTileAdapter.
                         Toast.makeText(l.getContext(), "Error al comprobar la biblioteca.", Toast.LENGTH_LONG).show();
                     }
                 });
-
-
-
-
-
             });
 
         }
