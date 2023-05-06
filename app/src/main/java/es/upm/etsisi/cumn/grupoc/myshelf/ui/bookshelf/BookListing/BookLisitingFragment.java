@@ -73,17 +73,20 @@ public class BookLisitingFragment extends Fragment {
         binding = FragmentBookLisitingBinding.inflate(inflater, container, false);
         Bundle bundle = getArguments();
         BookShelfItemModel bookShelfItemModel = BookLisitingFragmentArgs.fromBundle(bundle).getMyArg();
+        EBookShelfItem bookShelfItemEAux;
 
-        BookShelfItemModel bookShelfItemModelAux;
-        if(bookShelfItemModel.getType().getDisplayName() == "PARA LEER")
-        {
-            bookShelfItemModelAux = new BookShelfItemModel(EBookShelfItem.READ);
-        } else {
-            bookShelfItemModelAux = new BookShelfItemModel(EBookShelfItem.TO_READ);
+        switch (bookShelfItemModel.getType()) {
+            case READ:
+                bookShelfItemEAux = EBookShelfItem.TO_READ;
+                break;
+            case TO_READ:
+                bookShelfItemEAux = EBookShelfItem.READ;
+                break;
+            default:
+                bookShelfItemEAux = null;
         }
-
         List<FirebaseBookWrapper> bookResponseList = bookShelfItemModel.getBookResponseList().getValue().stream().map(LiveData::getValue).collect(Collectors.toList());
-        binding.listBook.setAdapter(new BookInfoAdapter(bookResponseList, bookShelfItemModel.getType(), bookShelfItemModelAux.getType(), this));
+        binding.listBook.setAdapter(new BookInfoAdapter(bookResponseList, bookShelfItemModel.getType(), bookShelfItemEAux, this));
 
         return binding.getRoot();
     }

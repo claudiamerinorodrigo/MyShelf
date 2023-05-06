@@ -1,8 +1,10 @@
 package es.upm.etsisi.cumn.grupoc.myshelf;
 
 import androidx.activity.result.ActivityResultLauncher;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
@@ -18,6 +20,8 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     Intent signInIntent;
+    int counter = 0;
+    private int MAX_RETRIES = 5;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,8 +33,6 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(this, NavActivity.class);
             startActivity(intent);
         }
-
-
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -60,7 +62,22 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         } else {
             Toast.makeText(getApplicationContext(), "Logged Failed", Toast.LENGTH_LONG).show();
-            signInLauncher.launch(signInIntent);
+            if (counter >= MAX_RETRIES) {
+                new AlertDialog.Builder(getApplicationContext())
+                        .setCancelable(false)
+                        .setTitle("LOGIN ERROR")
+                        .setMessage("Has excedido el numero maximo de intentos, la aplicación se va a cerrar")
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                finish();
+                            }
+                        })
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .show();
+            } else {
+                signInLauncher.launch(signInIntent);
+            }
+
         }
     }
 }

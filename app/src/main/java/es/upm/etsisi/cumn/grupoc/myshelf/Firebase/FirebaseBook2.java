@@ -10,6 +10,8 @@ public class FirebaseBook2 implements Serializable {
 
     public int score;
 
+    public boolean submitedScore;
+
     public FirebaseBook2() {
     }
 
@@ -36,5 +38,13 @@ public class FirebaseBook2 implements Serializable {
 
     public void setScore(int score) {
         this.score = score;
+    }
+
+    public void setSubmitedScore(boolean submitedScore) {
+        this.submitedScore = submitedScore;
+    }
+
+    public boolean isScoreSubmited() {
+        return submitedScore;
     }
 }

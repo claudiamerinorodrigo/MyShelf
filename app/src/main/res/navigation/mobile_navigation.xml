@@ -50,7 +50,7 @@
 
     <fragment
         android:id="@+id/bookDetailsFragment"
-        android:name="es.upm.etsisi.cumn.grupoc.myshelf.ui.BookDetails.BookDetailsFragment"
+        android:name="es.upm.etsisi.cumn.grupoc.myshelf.ui.bookshelf.BookDetails.BookDetailsFragment"
         android:label="@string/menu_book_details"
         tools:layout="@layout/fragment_book_details">
         <argument

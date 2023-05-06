@@ -1,14 +1,21 @@
-package es.upm.etsisi.cumn.grupoc.myshelf.ui.BookDetails;
+package es.upm.etsisi.cumn.grupoc.myshelf.ui.bookshelf.BookDetails;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+import es.upm.etsisi.cumn.grupoc.myshelf.Firebase.FirebaseBookGlobal;
 import es.upm.etsisi.cumn.grupoc.myshelf.Firebase.FirebaseBookWrapper;
 import es.upm.etsisi.cumn.grupoc.myshelf.REST.AuthorResponse;
 import es.upm.etsisi.cumn.grupoc.myshelf.REST.OpenBooksAdapter;
@@ -52,11 +59,24 @@ public class BookDetailsFragment extends Fragment {
         Bundle bundle = getArguments();
         FirebaseBookWrapper firebaseBookWrapper = BookDetailsFragmentArgs.fromBundle(bundle).getMyArg();
 
-        Picasso.get().load("https://covers.openlibrary.org/b/id/" + firebaseBookWrapper.getBookResponse().getCover() +"-L.jpg")
-                .resize(150, 300)
-                .centerCrop().into(binding.bookCover);
+        Picasso.get().load("https://covers.openlibrary.org/b/id/" + firebaseBookWrapper.getBookResponse().getCover() + "-L.jpg")
+                .into(binding.bookCover);
 
         binding.bookTitle.setText(firebaseBookWrapper.getBookResponse().getTitle());
+
+        DatabaseReference globalBookRefence = FirebaseDatabase.getInstance().getReference("books");
+        globalBookRefence.child(firebaseBookWrapper.getFirebaseBook2().getBookIDFirebase()).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    binding.bookAvgRating.setRating(snapshot.getValue(FirebaseBookGlobal.class).avgScore);
+                }
+
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
+        });
 
 
 
@@ -72,7 +92,12 @@ public class BookDetailsFragment extends Fragment {
 
             }
         });
-        //binding.bookIsbn.setText(firebaseBook.getBookResponse().getIsbn().get(0));
+
+        binding.bookRating.setRating(firebaseBookWrapper.getFirebaseBook2().getScore());
+
+        binding.bookRating.setOnRatingBarChangeListener((ratingBar, v, b) -> {
+            firebaseBookWrapper.updateScore((int) v);
+        });
 
         return binding.getRoot();
     }
