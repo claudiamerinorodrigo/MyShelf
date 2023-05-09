@@ -5,10 +5,12 @@
     android:id="@+id/frameLayout2"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="12dp"
+    android:paddingBottom="20dp"
     tools:context=".ui.bookshelf.shelfitem.BookshelfItemFragment">
 
+
     <!-- TODO: Update blank fragment layout -->
+
 
 
     <TextView
@@ -17,32 +19,34 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:fontFamily="sans-serif-smallcaps"
+        android:fontFamily="@font/abril_fatface"
         android:text="Read"
         android:textColor="@color/Universe"
-        android:textSize="34sp"
+        android:textSize="50sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/addButton"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="20dp"
         android:background="#00FFFFFF"
         android:backgroundTintMode="src_atop"
         android:foreground="@drawable/circle_plus_solid"
         android:foregroundTint="@color/Universe"
         android:onClick="hola"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/nameShelf" />
+
 
     <HorizontalScrollView
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_marginTop="60dp"
+        android:layout_height="120dp"
+        android:layout_marginTop="100dp"
         android:layout_weight="600"
         android:paddingStart="12dp"
         android:paddingEnd="12dp"
@@ -57,7 +61,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:divider="?attr/dividerVertical"
-            android:dividerPadding="10dp"
+            android:dividerPadding="5dp"
             android:orientation="horizontal"
             android:showDividers="middle">
 

@@ -23,7 +23,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class BookShelfItemModel implements Serializable {
-    private EBookShelfItem type;
+        private EBookShelfItem type;
     private MutableLiveData<List<MutableLiveData<FirebaseBookWrapper>>> bookResponseList;
 
     public BookShelfItemModel() {

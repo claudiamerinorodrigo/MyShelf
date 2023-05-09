@@ -1,5 +1,7 @@
 package es.upm.etsisi.cumn.grupoc.myshelf.ui.bookshelf.BookListing;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -41,6 +43,7 @@ public class BookInfoAdapter extends RecyclerView.Adapter<BookInfoAdapter.ViewHo
         this.eBookShelfItem = eBookShelfItem;
         this.fragment = fragment;
         this.eBookShelfItem2 = eBookShelfItem2;
+
     }
 
     @NonNull
@@ -62,7 +65,7 @@ public class BookInfoAdapter extends RecyclerView.Adapter<BookInfoAdapter.ViewHo
 
             if (cover != null)
                 Picasso.get().load("https://covers.openlibrary.org/b/id/" + cover + "-L.jpg")
-                        .resize(150, 300)
+                        .resize(150, 225)
                         .centerCrop().into(binding.imageView12);
 
             binding.bookTitle.setText(bookResponse.getTitle());
@@ -111,6 +114,8 @@ public class BookInfoAdapter extends RecyclerView.Adapter<BookInfoAdapter.ViewHo
                 });
             });
 
+
+
             binding.button4.setOnClickListener((l) -> {
                 NavHostFragment.findNavController(fragment).navigate(BookLisitingFragmentDirections.actionBookLisitingFragmentToBookDetailsFragment(firebaseBookWrapper));
             });
@@ -138,6 +143,7 @@ public class BookInfoAdapter extends RecyclerView.Adapter<BookInfoAdapter.ViewHo
                         Toast.makeText(l.getContext(), "Error al comprobar la biblioteca.", Toast.LENGTH_LONG).show();
                     }
                 });
+                NavHostFragment.findNavController(fragment).navigate(BookLisitingFragmentDirections.actionBookLisitingFragmentToBookDetailsFragment(firebaseBookWrapper));
             });
         }
     }
