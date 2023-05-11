@@ -4,15 +4,24 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+import androidx.navigation.fragment.NavHostFragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 
+import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import es.upm.etsisi.cumn.grupoc.myshelf.BookShelfListFragmentDirections;
 import es.upm.etsisi.cumn.grupoc.myshelf.Firebase.FirebaseBookWrapper;
+import es.upm.etsisi.cumn.grupoc.myshelf.R;
 import es.upm.etsisi.cumn.grupoc.myshelf.databinding.FragmentBookLisitingBinding;
 import es.upm.etsisi.cumn.grupoc.myshelf.ui.bookshelf.shelfitem.BookShelfItemModel;
 import es.upm.etsisi.cumn.grupoc.myshelf.ui.bookshelf.shelfitem.EBookShelfItem;
@@ -74,10 +83,10 @@ public class BookLisitingFragment extends Fragment {
         // Inflate the layout for this fragment
         binding = FragmentBookLisitingBinding.inflate(inflater, container, false);
         Bundle bundle = getArguments();
-        BookShelfItemModel bookShelfItemModel = BookLisitingFragmentArgs.fromBundle(bundle).getMyArg();
+        EBookShelfItem eBookShelfItem = BookLisitingFragmentArgs.fromBundle(bundle).getMyArg();
         EBookShelfItem bookShelfItemEAux;
 
-        switch (bookShelfItemModel.getType()) {
+        switch (eBookShelfItem) {
             case READ:
                 bookShelfItemEAux = EBookShelfItem.TO_READ;
                 break;
@@ -87,8 +96,21 @@ public class BookLisitingFragment extends Fragment {
             default:
                 bookShelfItemEAux = null;
         }
-        List<FirebaseBookWrapper> bookResponseList = bookShelfItemModel.getBookResponseList().getValue().stream().map(LiveData::getValue).collect(Collectors.toList());
-        binding.listBook.setAdapter(new BookInfoAdapter(bookResponseList, bookShelfItemModel.getType(), bookShelfItemEAux, this));
+
+        BookListingModel bookListingModel = new BookListingModel(eBookShelfItem);
+
+        bookListingModel.getBookResponseList().observe(getViewLifecycleOwner(), (o) -> {
+            ArrayList<FirebaseBookWrapper> firebaseBookWrappers = new ArrayList<>();
+            for (MutableLiveData<FirebaseBookWrapper> data: o) {
+                data.observe(getViewLifecycleOwner(), (o2) -> {
+                    firebaseBookWrappers.add(o2);
+                    binding.listBook.setAdapter(new BookInfoAdapter(firebaseBookWrappers, eBookShelfItem, bookShelfItemEAux, this));
+                });
+
+            }
+
+        });
+
 
         return binding.getRoot();
     }

@@ -3,6 +3,7 @@ package es.upm.etsisi.cumn.grupoc.myshelf;
 import android.os.Bundle;
 import android.os.Debug;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
 import android.widget.TextView;
@@ -15,6 +16,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.FirebaseDatabase;
 
+import androidx.annotation.NonNull;
+import androidx.core.view.GravityCompat;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -29,11 +32,12 @@ import es.upm.etsisi.cumn.grupoc.myshelf.REST.BookResponse;
 import es.upm.etsisi.cumn.grupoc.myshelf.REST.BookResponseSearch;
 import es.upm.etsisi.cumn.grupoc.myshelf.REST.OpenBooksAdapter;
 import es.upm.etsisi.cumn.grupoc.myshelf.databinding.ActivityNavBinding;
+import es.upm.etsisi.cumn.grupoc.myshelf.ui.bookshelf.shelfitem.EBookShelfItem;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class NavActivity extends AppCompatActivity {
+public class NavActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener  {
 
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityNavBinding binding;
@@ -61,15 +65,20 @@ public class NavActivity extends AppCompatActivity {
 
         DrawerLayout drawer = binding.drawerLayout;
         NavigationView navigationView = binding.navView;
+        navigationView.setNavigationItemSelectedListener(this);
+        navigationView.bringToFront();
+
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.bookShelfListFragment)
+                R.id.bookShelfListFragment, R.id.bookAddFragment, R.id.bookLisitingFragment)
                 .setOpenableLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_nav);
+
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+        navigationView.setNavigationItemSelectedListener(this);
     }
 
     @Override
@@ -84,5 +93,28 @@ public class NavActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_nav);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
+    }
+
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        binding.drawerLayout.closeDrawer(GravityCompat.START);
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_nav);
+        Bundle bundle = new Bundle();
+        switch (item.getItemId()) {
+            case R.id.bookShelfListFragment:
+                navController.navigate(R.id.bookShelfListFragment);
+                break;
+            case R.id.bookLisitingFragmentREAD:
+
+                bundle.putSerializable("myArg", EBookShelfItem.READ);
+                navController.navigate(R.id.bookLisitingFragment, bundle);
+                break;
+            case R.id.bookLisitingFragmentTOREAD:
+                bundle.putSerializable("myArg", EBookShelfItem.TO_READ);
+                navController.navigate(R.id.bookLisitingFragment, bundle);
+                break;
+        }
+        return true;
     }
 }

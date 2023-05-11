@@ -101,6 +101,6 @@ public class BookshelfItemFragment extends Fragment {
     }
 
     public void onClickShowBooks(View view) {
-        NavHostFragment.findNavController(this).navigate(BookShelfListFragmentDirections.actionBookShelfListFragmentToBookLisitingFragment(bookShelfItemModel));
+        NavHostFragment.findNavController(this).navigate(BookShelfListFragmentDirections.actionBookShelfListFragmentToBookLisitingFragment(bookShelfItemModel.getType()));
     }
 }

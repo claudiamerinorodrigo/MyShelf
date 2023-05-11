@@ -42,10 +42,13 @@
         tools:layout="@layout/fragment_book_lisiting">
         <argument
             android:name="myArg"
-            app:argType="es.upm.etsisi.cumn.grupoc.myshelf.ui.bookshelf.shelfitem.BookShelfItemModel" />
+            app:argType="es.upm.etsisi.cumn.grupoc.myshelf.ui.bookshelf.shelfitem.EBookShelfItem" />
         <action
             android:id="@+id/action_bookLisitingFragment_to_bookDetailsFragment"
             app:destination="@id/bookDetailsFragment" />
+        <action
+            android:id="@+id/action_bookLisitingFragment_self"
+            app:destination="@id/bookLisitingFragment" />
     </fragment>
 
     <fragment

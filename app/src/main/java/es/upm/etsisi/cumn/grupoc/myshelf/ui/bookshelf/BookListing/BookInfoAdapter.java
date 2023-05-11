@@ -103,7 +103,8 @@ public class BookInfoAdapter extends RecyclerView.Adapter<BookInfoAdapter.ViewHo
                         } else {
                             // El libro no está en la biblioteca, añadirlo
                             shelfRefence2.child(firebaseBook2.getBookIDFirebase()).setValue(firebaseBook2);
-                           Toast.makeText(l.getContext(), "Se ha movido el libro " + bookResponse.getTitle() + " con éxito.", Toast.LENGTH_LONG).show();
+                            NavHostFragment.findNavController(fragment).navigate(BookLisitingFragmentDirections.actionBookLisitingFragmentSelf(eBookShelfItem2));
+                            Toast.makeText(l.getContext(), "Se ha movido el libro " + bookResponse.getTitle() + " con éxito.", Toast.LENGTH_LONG).show();
                         }
                     }
                     @Override
@@ -143,7 +144,6 @@ public class BookInfoAdapter extends RecyclerView.Adapter<BookInfoAdapter.ViewHo
                         Toast.makeText(l.getContext(), "Error al comprobar la biblioteca.", Toast.LENGTH_LONG).show();
                     }
                 });
-                NavHostFragment.findNavController(fragment).navigate(BookLisitingFragmentDirections.actionBookLisitingFragmentToBookDetailsFragment(firebaseBookWrapper));
             });
         }
     }
