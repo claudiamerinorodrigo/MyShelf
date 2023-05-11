@@ -84,6 +84,8 @@ public class BookLisitingFragment extends Fragment {
         binding = FragmentBookLisitingBinding.inflate(inflater, container, false);
         Bundle bundle = getArguments();
         EBookShelfItem eBookShelfItem = BookLisitingFragmentArgs.fromBundle(bundle).getMyArg();
+
+        binding.shelfName.setText(eBookShelfItem.getDisplayName());
         EBookShelfItem bookShelfItemEAux;
 
         switch (eBookShelfItem) {

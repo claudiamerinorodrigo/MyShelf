@@ -67,10 +67,9 @@ public class BookshelfItemFragment extends Fragment {
             for (MutableLiveData<FirebaseBookWrapper> bookResponse : o) {
                 ImageView imageView = new ImageView(getContext());
                 LinearLayout.LayoutParams viewParamsCenter = new LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                        LinearLayout.LayoutParams.WRAP_CONTENT, 300);
                 viewParamsCenter.setMargins(20, 0, 20, 0);
                 imageView.setLayoutParams(viewParamsCenter);
-
                 imageView.setImageResource(R.mipmap.book_shelf_display);
 
 
