@@ -1,5 +1,8 @@
 package es.upm.etsisi.cumn.grupoc.myshelf;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Debug;
 import android.util.Log;
@@ -16,6 +19,10 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.FirebaseDatabase;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.core.view.GravityCompat;
 import androidx.navigation.NavController;
@@ -32,6 +39,7 @@ import es.upm.etsisi.cumn.grupoc.myshelf.REST.BookResponse;
 import es.upm.etsisi.cumn.grupoc.myshelf.REST.BookResponseSearch;
 import es.upm.etsisi.cumn.grupoc.myshelf.REST.OpenBooksAdapter;
 import es.upm.etsisi.cumn.grupoc.myshelf.databinding.ActivityNavBinding;
+import es.upm.etsisi.cumn.grupoc.myshelf.ui.bookshelf.ISBN.ISBNScannerActivity;
 import es.upm.etsisi.cumn.grupoc.myshelf.ui.bookshelf.shelfitem.EBookShelfItem;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -79,6 +87,9 @@ public class NavActivity extends AppCompatActivity implements NavigationView.OnN
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
         navigationView.setNavigationItemSelectedListener(this);
+
+
+
     }
 
     @Override
@@ -117,4 +128,6 @@ public class NavActivity extends AppCompatActivity implements NavigationView.OnN
         }
         return true;
     }
+
+
 }

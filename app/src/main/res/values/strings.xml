@@ -108,4 +108,5 @@
     <string name="title_book_shelf_list">Estanterias</string>
     <string name="menu_to_read">Para leer</string>
     <string name="menu_read">Leídos</string>
+    <string name="menu_ISBN">ISBN\n</string>
 </resources>

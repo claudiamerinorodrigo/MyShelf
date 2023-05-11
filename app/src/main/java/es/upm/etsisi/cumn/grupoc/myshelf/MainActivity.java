@@ -17,6 +17,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import java.util.Arrays;
 import java.util.List;
 
+import es.upm.etsisi.cumn.grupoc.myshelf.ui.bookshelf.ISBN.ISBNScannerActivity;
+
 public class MainActivity extends AppCompatActivity {
 
     Intent signInIntent;
@@ -32,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
         else {
             Intent intent = new Intent(this, NavActivity.class);
             startActivity(intent);
+            finish();
         }
 
         super.onCreate(savedInstanceState);
