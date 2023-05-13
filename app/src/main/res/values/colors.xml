@@ -9,4 +9,7 @@
     <color name="white">#FFFFFFFF</color>
     <color name="peach">#FFECCD</color>
     <color name="Universe">#1D2364</color>
+    <color name="UniverseVariant">#283087</color>
+    <color name="UniverseNight">#404CD6</color>
+    <color name="AccentPeach">#EF980A</color>
 </resources>

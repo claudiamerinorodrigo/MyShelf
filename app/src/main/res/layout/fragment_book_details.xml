@@ -10,7 +10,8 @@
 <LinearLayout
     android:layout_width="match_parent"
 android:layout_height="match_parent"
-android:orientation="vertical">
+android:orientation="vertical"
+    android:gravity="center">
 
     <ImageView
         android:id="@+id/book_cover"
@@ -22,24 +23,30 @@ android:orientation="vertical">
         android:layout_weight="1"
         android:scaleType="fitCenter" />
 
-<TextView
-    android:id="@+id/book_title"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:textAppearance="@style/TextAppearance.AppCompat.Large"
-    android:textStyle="bold"
-    android:padding="16dp"
-    android:layout_marginBottom="15dp"/>
+    <TextView
+        android:id="@+id/book_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"
+        android:fontFamily="@font/abril_fatface"
+        android:gravity="center"
+        android:padding="16dp"
+        android:text="Titulo"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textStyle="bold" />
 
-<TextView
-    android:id="@+id/book_author"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-    android:textStyle="italic"
-    android:paddingStart="16dp"
-    android:paddingEnd="16dp"
-    android:layout_marginBottom="15dp"/>
+    <TextView
+        android:id="@+id/book_author"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"
+        android:fontFamily="@font/adamina"
+        android:gravity="center"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:text="Autor"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textStyle="italic" />
 
     <RatingBar
         android:id="@+id/book_rating"

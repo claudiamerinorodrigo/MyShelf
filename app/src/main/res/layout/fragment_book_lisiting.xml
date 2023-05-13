@@ -19,6 +19,7 @@
             android:layout_gravity="center|top"
             android:fontFamily="@font/abril_fatface"
             android:text="TextView"
+            android:textColor="@color/Universe"
             android:textSize="34sp" />
 
         <androidx.recyclerview.widget.RecyclerView
