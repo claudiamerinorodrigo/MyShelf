@@ -19,10 +19,5 @@
             android:menuCategory="secondary"
             android:icon="@drawable/ic_menu_gallery"
             android:title="@string/menu_to_read" />
-        <item
-            android:id="@+id/ISBNScanner"
-            android:menuCategory="secondary"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="@string/menu_ISBN" />
     </group>
 </menu>

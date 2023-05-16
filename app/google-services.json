@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "991130342784-937f80f9i9u7cs03osnq343bl7kq7prn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "es.upm.etsisi.cumn.grupoc.myshelf",
+            "certificate_hash": "b585c1c02ca6602307b96659f7fcd8fb81cbef34"
+          }
+        },
+        {
           "client_id": "991130342784-svq6ju229ibc9tnmpqdah51n5j9iej82.apps.googleusercontent.com",
           "client_type": 3
         }

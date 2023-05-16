@@ -8,13 +8,13 @@ public class BookResponseSearch {
     @SerializedName("numFound")
     int numFound;
     @SerializedName("docs")
-    List<BookResponse> docs;
+    List<BookInfoSearchResponse> docs;
 
     public int getNumFound() {
         return numFound;
     }
 
-    public List<BookResponse> getDocs() {
+    public List<BookInfoSearchResponse> getDocs() {
         return docs;
     }
 }

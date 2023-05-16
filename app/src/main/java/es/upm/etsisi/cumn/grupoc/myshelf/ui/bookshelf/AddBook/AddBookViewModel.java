@@ -1,6 +1,5 @@
 package es.upm.etsisi.cumn.grupoc.myshelf.ui.bookshelf.AddBook;
 
-import android.text.Editable;
 import android.util.Log;
 
 import androidx.lifecycle.LiveData;
@@ -9,7 +8,7 @@ import androidx.lifecycle.ViewModel;
 
 import java.util.List;
 
-import es.upm.etsisi.cumn.grupoc.myshelf.REST.BookResponse;
+import es.upm.etsisi.cumn.grupoc.myshelf.REST.BookInfoSearchResponse;
 import es.upm.etsisi.cumn.grupoc.myshelf.REST.BookResponseSearch;
 import es.upm.etsisi.cumn.grupoc.myshelf.REST.OpenBooksAdapter;
 import retrofit2.Call;
@@ -18,8 +17,8 @@ import retrofit2.Response;
 
 public class AddBookViewModel extends ViewModel {
 
-    MutableLiveData<List<BookResponse>> bookResponse;
-    public LiveData<List<BookResponse>> getBookResponseList() {
+    MutableLiveData<List<BookInfoSearchResponse>> bookResponse;
+    public LiveData<List<BookInfoSearchResponse>> getBookResponseList() {
         return  bookResponse;
     }
 

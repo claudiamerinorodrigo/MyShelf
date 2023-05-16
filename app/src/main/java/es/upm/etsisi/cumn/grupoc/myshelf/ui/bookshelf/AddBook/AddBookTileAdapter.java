@@ -19,6 +19,7 @@ import java.util.List;
 import es.upm.etsisi.cumn.grupoc.myshelf.Firebase.FirebaseBook2;
 import es.upm.etsisi.cumn.grupoc.myshelf.Firebase.Firebase_Utils;
 import es.upm.etsisi.cumn.grupoc.myshelf.R;
+import es.upm.etsisi.cumn.grupoc.myshelf.REST.BookInfoSearchResponse;
 import es.upm.etsisi.cumn.grupoc.myshelf.REST.BookResponse;
 import es.upm.etsisi.cumn.grupoc.myshelf.databinding.AddBookTileBinding;
 import es.upm.etsisi.cumn.grupoc.myshelf.ui.bookshelf.shelfitem.EBookShelfItem;
@@ -26,10 +27,10 @@ import es.upm.etsisi.cumn.grupoc.myshelf.ui.bookshelf.shelfitem.EBookShelfItem;
 public class AddBookTileAdapter extends RecyclerView.Adapter<AddBookTileAdapter.ViewHolder>{
 
 
-    private List<BookResponse> bookList;
+    private List<BookInfoSearchResponse> bookList;
     private EBookShelfItem eBookShelfItem;
 
-    public AddBookTileAdapter(List<BookResponse> bookList, EBookShelfItem eBookShelfItem) {
+    public AddBookTileAdapter(List<BookInfoSearchResponse> bookList, EBookShelfItem eBookShelfItem) {
         this.bookList = bookList;
         this.eBookShelfItem = eBookShelfItem;
     }
@@ -42,11 +43,11 @@ public class AddBookTileAdapter extends RecyclerView.Adapter<AddBookTileAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        BookResponse bookResponse = bookList.get(position);
+        BookInfoSearchResponse bookResponse = bookList.get(position);
         AddBookTileBinding binding = holder.getBinding();
 
         if (bookResponse != null) {
-            String cover = bookResponse.getCover();
+            String cover = bookResponse.getCover_i();
 
             binding.imageView12.setImageResource(R.mipmap.book_shelf_display);
 

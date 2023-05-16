@@ -20,8 +20,8 @@
         android:layout_height="75dp"
         android:contentDescription="@string/nav_header_desc"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
-        android:tint="@color/peach"
-        app:srcCompat="@drawable/user_astronaut_solid" />
+        app:srcCompat="@drawable/user_astronaut_solid"
+        app:tint="@color/peach" />
 
     <TextView
         android:id="@+id/userName"
@@ -36,4 +36,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/nav_header_subtitle" />
+
+    <Button
+        android:id="@+id/signoutButton"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:text="Cerrar sesión"
+        app:tint="@color/peach" />
 </LinearLayout>

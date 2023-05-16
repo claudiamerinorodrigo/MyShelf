@@ -9,8 +9,10 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
+import android.widget.Button;
 import android.widget.TextView;
 
+import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
@@ -68,6 +70,15 @@ public class NavActivity extends AppCompatActivity implements NavigationView.OnN
 
         TextView userTextView = view.findViewById(R.id.userName);
         userTextView.setText(FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
+
+        Button signout = view.findViewById(R.id.signoutButton);
+        signout.setOnClickListener((l) -> {
+            FirebaseAuth.getInstance().signOut();
+            AuthUI.getInstance().signOut(getApplicationContext());
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+            finish();
+        });
 
         setSupportActionBar(binding.appBarNav.toolbar);
 

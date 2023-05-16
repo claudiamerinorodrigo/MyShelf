@@ -10,39 +10,12 @@ public class BookResponse implements Serializable {
     String key;
     @SerializedName("title")
     String title;
-    @SerializedName("isbn")
-    List<String> isbn;
-    @SerializedName("author_key")
-    List<String> author_key;
-    @SerializedName("author_name")
-    List<String> author_name;
-
     @SerializedName("covers")
     List<String> covers;
 
     @SerializedName("authors")
     List<AuthorBookResponse> authors;
 
-    public String getCover_i() {
-        return cover_i;
-    }
-
-    @SerializedName("cover_i")
-    String cover_i;
-    @SerializedName("ratings_average")
-    Float ratings_average;
-
-    @Override
-    public String toString() {
-        return "BookResponse{" +
-                "key='" + key + '\'' +
-                ", title='" + title + '\'' +
-                ", isbn='" + isbn + '\'' +
-                ", author_key='" + author_key + '\'' +
-                ", author_name='" + author_name + '\'' +
-                ", ratings_average=" + ratings_average +
-                '}';
-    }
 
     public String getKey() {
         return key;
@@ -52,28 +25,13 @@ public class BookResponse implements Serializable {
         return title;
     }
 
-    public List<String> getIsbn() {
-        return isbn;
-    }
-
-    public List<String> getAuthor_key() {
-        return author_key;
-    }
-
-    public List<String> getAuthor_name() {
-        return author_name;
-    }
-
-    public Float getRatings_average() {
-        return ratings_average;
-    }
 
     public List<String> getCovers() {
         return covers;
     }
 
     public String getCover() {
-        return getCovers() != null ? getCovers().get(getCovers().size() - 1) : getCover_i();
+        return getCovers() != null ? getCovers().get(getCovers().size() - 1) : null;
     }
 
     private static class AuthorBookResponse {

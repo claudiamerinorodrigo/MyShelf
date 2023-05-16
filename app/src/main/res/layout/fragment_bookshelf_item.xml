@@ -37,7 +37,6 @@
         android:backgroundTintMode="src_atop"
         android:foreground="@drawable/circle_plus_solid"
         android:foregroundTint="@color/Universe"
-        android:onClick="hola"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="@id/nameShelf" />
